@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -30,6 +31,7 @@ public class ROT13Test {
         String actual = cipher.rotate(s1, 'D');
 
         // Then
+        System.out.println(actual);
         assertTrue(actual.equals(s2));
     }
 
@@ -86,6 +88,26 @@ public class ROT13Test {
         System.out.println(actual);
         // Then
         assertTrue(actual.equals(Q1));
+    }
+
+    @Test
+    public void doubleCryptFileTest(){
+        // Arrange
+        FileHandler fh = new FileHandler();
+        ROT13 rot = new ROT13();
+        String inputPath = "sonnet18.txt";
+        String crypt1Path = "sonnet18.enc";
+
+        // Act
+        String expected = fh.fileToString(inputPath);
+        String crypt1 = rot.crypt(fh.fileToString(inputPath));
+        fh.StringToFile(crypt1, crypt1Path);
+        String actual = rot.crypt(fh.fileToString(crypt1Path));
+
+        // Assert
+        Assert.assertEquals(expected, actual);
+
+
     }
 
 }
